@@ -41,7 +41,13 @@ namespace Selenium
             actionProvider.KeyDown(Keys.Enter).Build().Perform();
             Thread.Sleep(5000);
 
-            SendKeys("./run-client.sh", m_driver);
+            SendKeys("npm i", m_driver);
+            actionProvider = new Actions(m_driver);
+            actionProvider.KeyDown(Keys.Enter).Build().Perform();
+
+            Thread.Sleep(10000);
+
+            SendKeys("npm run client", m_driver);
             actionProvider = new Actions(m_driver);
             actionProvider.KeyDown(Keys.Enter).Build().Perform();
 
