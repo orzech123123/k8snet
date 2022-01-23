@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
 
 namespace Selenium
 {
@@ -22,9 +23,31 @@ namespace Selenium
             hideIntroHide.Click();
 
             Thread.Sleep(5000);
+
+            var element = m_driver.FindElement(By.XPath("//section[@id='terminal']"));
+            //element.Click();
+            new Actions(m_driver).MoveToElement(element).MoveByOffset(10, 10).Click().Perform();
+            Thread.Sleep(3000);
+
+
+            SendKeys("ls -la", m_driver);
+            Actions actionProvider = new Actions(m_driver);
+            actionProvider.KeyDown(Keys.Enter).Build().Perform();
+            
+            Thread.Sleep(5000);
             m_driver.GetScreenshot().SaveAsFile($"{DateTime.Now.Ticks}.png");
-            //Thread.Sleep(200000);
+            
             m_driver.Close();
+        }
+
+        private static void SendKeys(string command, IWebDriver driver)
+        {
+            foreach (var letter in command)
+            {
+                Actions actionProvider = new Actions(driver);
+                actionProvider.KeyDown(new string(letter, 1)).Build().Perform();
+                Thread.Sleep(3000);
+            }
         }
     }
 }
