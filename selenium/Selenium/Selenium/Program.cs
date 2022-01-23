@@ -30,11 +30,23 @@ namespace Selenium
             Thread.Sleep(3000);
 
 
-            SendKeys("ls -la", m_driver);
+            SendKeys("git clone https://github.com/orzech123123/k8snet.git", m_driver);
             Actions actionProvider = new Actions(m_driver);
             actionProvider.KeyDown(Keys.Enter).Build().Perform();
-            
+
             Thread.Sleep(5000);
+
+            SendKeys("cd k8snet/", m_driver);
+            actionProvider = new Actions(m_driver);
+            actionProvider.KeyDown(Keys.Enter).Build().Perform();
+            Thread.Sleep(5000);
+
+            SendKeys("./run-client.sh", m_driver);
+            actionProvider = new Actions(m_driver);
+            actionProvider.KeyDown(Keys.Enter).Build().Perform();
+
+            Thread.Sleep(20000);
+
             m_driver.GetScreenshot().SaveAsFile($"{DateTime.Now.Ticks}.png");
             
             m_driver.Close();
@@ -46,7 +58,7 @@ namespace Selenium
             {
                 Actions actionProvider = new Actions(driver);
                 actionProvider.KeyDown(new string(letter, 1)).Build().Perform();
-                Thread.Sleep(3000);
+                Thread.Sleep(1500);
             }
         }
     }
