@@ -1,6 +1,6 @@
-const
-    {Server} = require("socket.io"),
-    server = new Server(80);
+import { Server } from "socket.io"
+
+const server = new Server(80);
 
 let
     sequenceNumberByClient = new Map(),
