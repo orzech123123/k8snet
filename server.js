@@ -11,7 +11,7 @@ server.on("connection", (socket) => {
     console.info(`Client connected [id=${socket.id}]`);
     // initialize this client's sequence number
     sequenceNumberByClient.set(socket, 1);
-    ipByClient.set(socket, "zzz");
+    ipByClient.set(socket, null);
 
     // when socket disconnects, remove it from the list:
     socket.on("disconnect", () => {
