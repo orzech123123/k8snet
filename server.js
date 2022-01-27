@@ -1,6 +1,6 @@
 import { Server } from "socket.io"
 
-const server = new Server(80);
+const server = new Server(82);
 
 let
     sequenceNumberByClient = new Map(),
