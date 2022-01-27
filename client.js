@@ -3,3 +3,5 @@ const
     ioClient = io.connect("http://77.55.212.76:80");
 
 ioClient.on("seq-num", (msg) => console.info(msg));
+
+ioClient.on("request-ip", () => ioClient.emit("receive-ip", "xxxx"));
