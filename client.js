@@ -6,7 +6,7 @@ const
 ioClient.on("seq-num", (msg) => console.info(msg));
 
 ioClient.on("request-ip", () => {
-    exec("ls -la", (error, stdout, stderr) => {
+    exec("curl api.ipify.org", (error, stdout, stderr) => {
         if (error) {
             console.log(`error: ${error.message}`);
             return;
