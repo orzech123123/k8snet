@@ -36,7 +36,7 @@ namespace Selenium
 
             Thread.Sleep(5000);
 
-            SendKeys("cd k8snet/", m_driver);
+            SendKeys("cd k8snet/api/socket-server/", m_driver);
             actionProvider = new Actions(m_driver);
             actionProvider.KeyDown(Keys.Enter).Build().Perform();
             Thread.Sleep(5000);
