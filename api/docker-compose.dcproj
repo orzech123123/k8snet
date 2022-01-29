@@ -6,7 +6,7 @@
     <ProjectGuid>7eb96e53-faaa-44df-ad39-bcdaa228d6e3</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>react-app</DockerServiceName>
+    <DockerServiceName>api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

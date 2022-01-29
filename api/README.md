@@ -6,7 +6,7 @@ chmod -R 777 projack/
 
 cd projack/
 
-./react-app
+./api
 
 ## DOCKER WAY
 

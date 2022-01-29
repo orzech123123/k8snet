@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  react-app:
+  api:
     container_name: k8snet-api
     ports:
         - "8080:80"
