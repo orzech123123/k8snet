@@ -1,4 +1,5 @@
 import { Server } from "socket.io"
+import got from 'got';
 
 const server = new Server(80);
 
@@ -25,7 +26,7 @@ server.on("connection", (socket) => {
 });
 
 // sends each client its current sequence number
-setInterval(() => {
+setInterval(async () => {
     for (const [client, sequenceNumber] of sequenceNumberByClient.entries()) {
         client.emit("seq-num", sequenceNumber);
         sequenceNumberByClient.set(client, sequenceNumber + 1);
@@ -35,4 +36,7 @@ setInterval(() => {
         client.emit("request-ip");
         console.log(` ${client} - ip: ${ip}`)
     }
+
+    
+    await got.get('http://api/test/test').json().then((test) => console.log(test));  
 }, 1000);
