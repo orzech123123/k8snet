@@ -12,4 +12,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
     build:
       context: .
-      dockerfile: ReactAppDockerfile
+      dockerfile: ApiDockerfile
+  socket-server:
+    container_name: k8snet-socket-server
+    ports:
+        - "80:80"
+    image: ${DOCKER_REGISTRY-}k8snet-api
+    build:
+      context: .
+      dockerfile: SocketServerDockerfile
