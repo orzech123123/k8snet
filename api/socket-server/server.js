@@ -1,5 +1,6 @@
 import { Server } from "socket.io"
 import got from 'got';
+import mongoose from 'mongoose';
 
 const server = new Server(80);
 
@@ -40,3 +41,26 @@ setInterval(async () => {
     
     await got.get('http://api/test/test').json().then((test) => console.log(test));  
 }, 1000);
+
+var Person = null;
+setInterval(async () => {
+    if(!Person)
+    {
+        mongoose.connect('mongodb://root:lunsztra@mongo-db:27017/admin');
+        var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', async () => {
+            const personSchema = new mongoose.Schema({
+                name: String
+            });
+            Person = mongoose.model('Person', personSchema);
+            console.log("---CONNECTED---")
+        });
+    }
+
+    if(!!Person)
+    {
+        await Person.create({ name: 'Axl Rose' });
+        console.log("---ADDED---")
+    }
+}, 3000);
