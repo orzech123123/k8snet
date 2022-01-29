@@ -2,10 +2,10 @@ version: '3.4'
 
 services:
   react-app:
-    container_name: projack
+    container_name: k8snet-api
     ports:
         - "8080:80"
-    image: ${DOCKER_REGISTRY-}projack
+    image: ${DOCKER_REGISTRY-}k8snet-api
     volumes:
       - ./Docker/volumes/sql-server-volume:/home/sql-server-volume
       - /etc/timezone:/etc/timezone:ro
