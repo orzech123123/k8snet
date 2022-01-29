@@ -7,3 +7,6 @@ services:
   socket-server:
     ports:
       - "80:80"
+  mongo-db:
+    ports:
+      - "27017:27017"
