@@ -2,7 +2,7 @@ FROM node:14.15.1
 
 WORKDIR ./
 
-COPY ./../socket-server/ ./
+COPY ./socket-server ./
 
 RUN npm i
 

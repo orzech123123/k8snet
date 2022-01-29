@@ -12,7 +12,7 @@ RUN dotnet publish "api.csproj" -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim
 
-EXPOSE 80
+EXPOSE 8080
 
 COPY --from=build /app/publish .
 

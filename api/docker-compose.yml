@@ -17,7 +17,7 @@ services:
     container_name: k8snet-socket-server
     ports:
         - "80:80"
-    image: ${DOCKER_REGISTRY-}k8snet-api
+    image: ${DOCKER_REGISTRY-}k8snet-socket-server
     build:
       context: .
       dockerfile: SocketServerDockerfile
