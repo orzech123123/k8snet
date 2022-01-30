@@ -66,7 +66,8 @@ namespace Selenium
 
             Console.WriteLine("7");
             m_driver.GetScreenshot().SaveAsFile($"{DateTime.Now.Ticks}.png");
-            
+            Console.WriteLine("8");
+
             m_driver.Close();
         }
 
