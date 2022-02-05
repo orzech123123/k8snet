@@ -15,7 +15,7 @@ namespace react_app.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        private static int Port = 6666;
+        private static int Port = 5454;
 
         public TestController()
         {
