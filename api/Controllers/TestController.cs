@@ -52,7 +52,7 @@ namespace react_app.Controllers
 
         public static void ExecuteCommand(string command)
         {
-            command = $"echo \"{command}\" > /hostpipe/k8snet-pipe";
+            command = $"echo '{command}' > /hostpipe/k8snet-pipe";
             Console.WriteLine($"COMMAND -> {command}");
 
             Process proc = new Process();
