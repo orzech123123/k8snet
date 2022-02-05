@@ -80,12 +80,14 @@ namespace react_app.Controllers
             proc.StartInfo.Arguments = "-c \" " + command + " \"";
             proc.StartInfo.UseShellExecute = false;
             proc.StartInfo.RedirectStandardOutput = true;
+            Console.WriteLine("Executtttting");
             proc.Start();
 
             while (!proc.StandardOutput.EndOfStream)
             {
                 Console.WriteLine(proc.StandardOutput.ReadLine());
             }
+            Console.WriteLine("Executtttted");
         }
 
         private void RunSelenium(int port)
@@ -93,14 +95,15 @@ namespace react_app.Controllers
             var containerName = $"selenium{port}";
             var seleniumUrl = $"http://77.55.212.76:{port}/wd/hub";
 
-            var command = $"docker run -n {containerName} -d -p {port}:4444 selenium/standalone-chrome";
+            var command = $"docker run --name {containerName} -d -p {port}:4444 selenium/standalone-chrome";
 
             Console.WriteLine($"Running container {containerName}");
 
             ExecuteCommand(command);
 
-            //await AwaitSeleniumAvilability(seleniumUrl);
-            return;
+
+            AwaitSeleniumAvilability(seleniumUrl).GetAwaiter().GetResult();
+
 
             Console.WriteLine("-----------------------------1");
             var chromeOptions = new ChromeOptions();
