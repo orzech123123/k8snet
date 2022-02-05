@@ -7,6 +7,7 @@ using RestSharp;
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -39,7 +40,7 @@ namespace react_app.Controllers
                 //cts.Token.ThrowIfCancellationRequested();
 
 
-                RunSelenium();
+                RunSelenium(Port++);
 
 
             }, cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default).Unwrap();
@@ -48,6 +49,25 @@ namespace react_app.Controllers
             {
                 Ok = "SELENIUM"
             });
+        }
+
+        private async Task AwaitSeleniumAvilability(string url)
+        {
+            var options = new RestClientOptions(url)
+            {
+                ThrowOnAnyError = true,
+                Timeout = 2000
+            };
+            var client = new RestClient(options);
+
+            var response = client.GetAsync(new RestRequest()).GetAwaiter().GetResult();
+
+            if (response.StatusCode == HttpStatusCode.NotFound && response.ContentLength == -1)
+            {
+                await Task.Delay(1000);
+                Console.WriteLine("Awaiting Selenium...");
+                await AwaitSeleniumAvilability(url);
+            }
         }
 
         public static void ExecuteCommand(string command)
@@ -68,23 +88,18 @@ namespace react_app.Controllers
             }
         }
 
-        private void RunSelenium()
+        private async Task RunSelenium(int port)
         {
-            var containerName = $"selenium{Guid.NewGuid()}";
+            var containerName = $"selenium{port}";
+            var seleniumUrl = $"http://77.55.212.76:{port}/wd/hub";
 
-            //var options = new RestClientOptions($"http://selenium:4444/wd/hub")
-            //{
-            //    ThrowOnAnyError = true,
-            //    Timeout = 1000
-            //};
-            //var client = new RestClient(options);
+            var command = $"docker run -n {containerName} -d -p {port}:4444 selenium/standalone-chrome";
 
-            var command = $"docker run -d -p {Port++}:4444 selenium/standalone-chrome";
+            Console.WriteLine($"Running container {containerName}");
 
             ExecuteCommand(command);
 
-
-            return;
+            await AwaitSeleniumAvilability(seleniumUrl);
 
             Console.WriteLine("-----------------------------1");
             var chromeOptions = new ChromeOptions();
@@ -92,7 +107,7 @@ namespace react_app.Controllers
             chromeOptions.AddArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36");
             Console.WriteLine("headless && user-agent set");
 
-            var m_driver = new RemoteWebDriver(new Uri("http://selenium:4444/wd/hub"), chromeOptions);
+            var m_driver = new RemoteWebDriver(new Uri(seleniumUrl), chromeOptions);
             m_driver.Url = "https://kubernetes.io/pl/docs/tutorials/kubernetes-basics/create-cluster/cluster-interactive/";
             m_driver.Manage().Window.Size = new Size(1024, 768);
             //IWebElement hideIntroHide = m_driver.FindElement(By.Id("hide-intro"));
