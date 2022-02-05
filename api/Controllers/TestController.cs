@@ -3,7 +3,9 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
+using RestSharp;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +15,8 @@ namespace react_app.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
+        private static int Port = 6666;
+
         public TestController()
         {
         }
@@ -46,9 +50,41 @@ namespace react_app.Controllers
             });
         }
 
+        public static void ExecuteCommand(string command)
+        {
+            Console.WriteLine($"COMMAND -> {command}");
+
+            Process proc = new Process();
+            proc.StartInfo.FileName = "/bin/bash";
+            proc.StartInfo.Arguments = "-c \" " + command + " \"";
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.RedirectStandardOutput = true;
+            proc.Start();
+
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                Console.WriteLine(proc.StandardOutput.ReadLine());
+            }
+        }
 
         private void RunSelenium()
         {
+            var containerName = $"selenium{Guid.NewGuid()}";
+
+            //var options = new RestClientOptions($"http://selenium:4444/wd/hub")
+            //{
+            //    ThrowOnAnyError = true,
+            //    Timeout = 1000
+            //};
+            //var client = new RestClient(options);
+
+            var command = $"docker run -d -p {Port++}:4444 selenium/standalone-chrome";
+
+            ExecuteCommand(command);
+
+
+            return;
+
             Console.WriteLine("-----------------------------1");
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
