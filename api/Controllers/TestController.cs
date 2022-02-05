@@ -88,7 +88,7 @@ namespace react_app.Controllers
             }
         }
 
-        private async Task RunSelenium(int port)
+        private void RunSelenium(int port)
         {
             var containerName = $"selenium{port}";
             var seleniumUrl = $"http://77.55.212.76:{port}/wd/hub";
@@ -99,7 +99,8 @@ namespace react_app.Controllers
 
             ExecuteCommand(command);
 
-            await AwaitSeleniumAvilability(seleniumUrl);
+            //await AwaitSeleniumAvilability(seleniumUrl);
+            return;
 
             Console.WriteLine("-----------------------------1");
             var chromeOptions = new ChromeOptions();
