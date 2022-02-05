@@ -52,6 +52,7 @@ namespace react_app.Controllers
 
         public static void ExecuteCommand(string command)
         {
+            command = $"echo \"{command}\" > /hostpipe/k8snet-pipe";
             Console.WriteLine($"COMMAND -> {command}");
 
             Process proc = new Process();
@@ -78,7 +79,7 @@ namespace react_app.Controllers
             //};
             //var client = new RestClient(options);
 
-            var command = $"docker run -d -p {Port++}:4444 selenium/standalone-chrome > /hostpipe/k8snet-pipe";
+            var command = $"docker run -d -p {Port++}:4444 selenium/standalone-chrome";
 
             ExecuteCommand(command);
 
