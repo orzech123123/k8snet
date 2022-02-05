@@ -7,7 +7,7 @@ services:
         - "8080:80"
     image: ${DOCKER_REGISTRY-}k8snet-api
     volumes:
-      - ./Docker/volumes/sql-server-volume:/home/sql-server-volume
+      - /home:/hostpipe
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     build:

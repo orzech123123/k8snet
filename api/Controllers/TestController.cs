@@ -78,7 +78,7 @@ namespace react_app.Controllers
             //};
             //var client = new RestClient(options);
 
-            var command = $"docker run -d -p {Port++}:4444 selenium/standalone-chrome > /home/k8snet-pipe";
+            var command = $"docker run -d -p {Port++}:4444 selenium/standalone-chrome > /hostpipe/k8snet-pipe";
 
             ExecuteCommand(command);
 
