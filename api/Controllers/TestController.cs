@@ -16,7 +16,7 @@ namespace react_app.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        private static int Port = 5454;
+        private static int Number = 1;
 
         public TestController()
         {
@@ -40,7 +40,7 @@ namespace react_app.Controllers
                 //cts.Token.ThrowIfCancellationRequested();
 
 
-                await RunSelenium(Port++);
+                await RunSelenium(Number++);
 
 
             }, cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default).Unwrap();
@@ -94,7 +94,7 @@ namespace react_app.Controllers
             Console.WriteLine("Executtttted");
         }
 
-        private async Task RunSelenium(int port)
+        private async Task RunSelenium(int number)
         {
             //var containerName = $"selenium{Guid.NewGuid()}";
             //var seleniumUrl = $"http://77.55.212.76:{port}/wd/hub";
@@ -121,7 +121,7 @@ namespace react_app.Controllers
             chromeOptions.AddArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36");
             Console.WriteLine("headless && user-agent set");
 
-            var m_driver = new RemoteWebDriver(new Uri("http://selenium:5454/wd/hub"/*seleniumUrl*/), chromeOptions);
+            var m_driver = new RemoteWebDriver(new Uri($"http://api_selenium_{2/*number*/}:4444/wd/hub"/*seleniumUrl*/), chromeOptions);
             m_driver.Url = "https://kubernetes.io/pl/docs/tutorials/kubernetes-basics/create-cluster/cluster-interactive/";
             m_driver.Manage().Window.Size = new Size(1024, 768);
             //IWebElement hideIntroHide = m_driver.FindElement(By.Id("hide-intro"));
