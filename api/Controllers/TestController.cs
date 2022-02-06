@@ -62,12 +62,16 @@ namespace react_app.Controllers
 
             var response = await client.ExecuteAsync(new RestRequest());
 
+            Console.WriteLine("Awaiter selenium started..");
+
             if (response.ResponseStatus == ResponseStatus.TimedOut)
             {
                 await Task.Delay(1000);
                 Console.WriteLine("Awaiting Selenium...");
                 await AwaitSeleniumAvilability(url);
             }
+
+            Console.WriteLine($"RESPONSE   ----   {response.ResponseStatus}");
         }
 
         public static void ExecuteCommand(string command)
@@ -92,7 +96,7 @@ namespace react_app.Controllers
 
         private async Task RunSelenium(int port)
         {
-            var containerName = $"selenium{port}";
+            var containerName = $"selenium{Guid.NewGuid()}";
             var seleniumUrl = $"http://77.55.212.76:{port}/wd/hub";
 
             var stopCommand = $"docker container ls -al | grep {containerName} && docker container rm -f {containerName}";
