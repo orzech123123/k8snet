@@ -30,7 +30,7 @@ services:
       - 27017:27017
     #volumes:
     #  - ./Docker/volumes/mongo-db:/data/db
-  #selenium:
-  #  image: selenium/standalone-chrome
-  #  ports:
-  #    - 4444:4444
+  selenium:
+    image: selenium/standalone-chrome
+    ports:
+      - 4444:4444

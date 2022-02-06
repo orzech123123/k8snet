@@ -96,24 +96,24 @@ namespace react_app.Controllers
 
         private async Task RunSelenium(int port)
         {
-            var containerName = $"selenium{Guid.NewGuid()}";
-            var seleniumUrl = $"http://77.55.212.76:{port}/wd/hub";
+            //var containerName = $"selenium{Guid.NewGuid()}";
+            //var seleniumUrl = $"http://77.55.212.76:{port}/wd/hub";
 
-            var stopCommand = $"docker container ls -al | grep {containerName} && docker container rm -f {containerName}";
-            var startCommand = $"docker run --name {containerName} -d -p {port}:4444 selenium/standalone-chrome";
+            //var stopCommand = $"docker container ls -al | grep {containerName} && docker container rm -f {containerName}";
+            //var startCommand = $"docker run --name {containerName} -d -p {port}:4444 selenium/standalone-chrome";
 
-            Console.WriteLine($"Stopping container {containerName}");
-            ExecuteCommand(stopCommand);
+            //Console.WriteLine($"Stopping container {containerName}");
+            //ExecuteCommand(stopCommand);
 
-            await Task.Delay(5000);
+            //await Task.Delay(5000);
 
-            Console.WriteLine($"Running container {containerName}");
-            ExecuteCommand(startCommand);
+            //Console.WriteLine($"Running container {containerName}");
+            //ExecuteCommand(startCommand);
 
 
-            await AwaitSeleniumAvilability(seleniumUrl);
+            //await AwaitSeleniumAvilability(seleniumUrl);
 
-            await Task.Delay(5000);
+            //await Task.Delay(5000);
 
             Console.WriteLine("-----------------------------1");
             var chromeOptions = new ChromeOptions();
@@ -121,7 +121,7 @@ namespace react_app.Controllers
             chromeOptions.AddArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36");
             Console.WriteLine("headless && user-agent set");
 
-            var m_driver = new RemoteWebDriver(new Uri(seleniumUrl), chromeOptions);
+            var m_driver = new RemoteWebDriver(new Uri("http://selenium:4444/wd/hub"), chromeOptions);
             m_driver.Url = "https://kubernetes.io/pl/docs/tutorials/kubernetes-basics/create-cluster/cluster-interactive/";
             m_driver.Manage().Window.Size = new Size(1024, 768);
             //IWebElement hideIntroHide = m_driver.FindElement(By.Id("hide-intro"));
