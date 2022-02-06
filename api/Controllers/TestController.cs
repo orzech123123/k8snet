@@ -98,7 +98,7 @@ namespace react_app.Controllers
         {
             var seleniumUrl = $"http://api_selenium_{number}:4444/wd/hub";
 
-            var startCommand = $"docker-compose -f /home/k8snet/api/docker-compose.yml up --scale selenium={number} -d";
+            var startCommand = $"/usr/local/bin/docker-compose -f /home/k8snet/api/docker-compose.yml up --scale selenium={number} -d";
 
             Console.WriteLine($"Running selenium container {number}");
             ExecuteCommand(startCommand);
