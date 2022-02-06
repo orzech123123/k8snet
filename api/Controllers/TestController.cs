@@ -40,7 +40,7 @@ namespace react_app.Controllers
                 //cts.Token.ThrowIfCancellationRequested();
 
 
-                RunSelenium(Port++);
+                await RunSelenium(Port++);
 
 
             }, cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default).Unwrap();
@@ -60,7 +60,7 @@ namespace react_app.Controllers
             };
             var client = new RestClient(options);
 
-            var response = client.ExecuteAsync(new RestRequest()).GetAwaiter().GetResult();
+            var response = await client.ExecuteAsync(new RestRequest());
 
             if (response.ResponseStatus == ResponseStatus.TimedOut)
             {
@@ -90,7 +90,7 @@ namespace react_app.Controllers
             Console.WriteLine("Executtttted");
         }
 
-        private void RunSelenium(int port)
+        private async Task RunSelenium(int port)
         {
             var containerName = $"selenium{port}";
             var seleniumUrl = $"http://77.55.212.76:{port}/wd/hub";
@@ -101,13 +101,13 @@ namespace react_app.Controllers
             Console.WriteLine($"Stopping container {containerName}");
             ExecuteCommand(stopCommand);
 
-            Task.Delay(5000);
+            await Task.Delay(5000);
 
             Console.WriteLine($"Running container {containerName}");
             ExecuteCommand(startCommand);
 
 
-            AwaitSeleniumAvilability(seleniumUrl).GetAwaiter().GetResult();
+            await AwaitSeleniumAvilability(seleniumUrl);
 
 
             Console.WriteLine("-----------------------------1");
