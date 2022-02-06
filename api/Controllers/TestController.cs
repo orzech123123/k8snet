@@ -51,18 +51,18 @@ namespace react_app.Controllers
             });
         }
 
-        private async Task AwaitSeleniumAvilability(string url)
+        private static async Task AwaitSeleniumAvilability(string url)
         {
             var options = new RestClientOptions(url)
             {
-                ThrowOnAnyError = true,
+                ThrowOnAnyError = false,
                 Timeout = 2000
             };
             var client = new RestClient(options);
 
-            var response = client.GetAsync(new RestRequest()).GetAwaiter().GetResult();
+            var response = client.ExecuteAsync(new RestRequest()).GetAwaiter().GetResult();
 
-            if (response.StatusCode == HttpStatusCode.NotFound && response.ContentLength == -1)
+            if (response.ResponseStatus == ResponseStatus.TimedOut)
             {
                 await Task.Delay(1000);
                 Console.WriteLine("Awaiting Selenium...");
@@ -95,11 +95,16 @@ namespace react_app.Controllers
             var containerName = $"selenium{port}";
             var seleniumUrl = $"http://77.55.212.76:{port}/wd/hub";
 
-            var command = $"docker run --name {containerName} -d -p {port}:4444 selenium/standalone-chrome";
+            var stopCommand = $"docker container ls -al | grep {containerName} && docker container rm -f {containerName}";
+            var startCommand = $"docker run --name {containerName} -d -p {port}:4444 selenium/standalone-chrome";
+
+            Console.WriteLine($"Stopping container {containerName}");
+            ExecuteCommand(stopCommand);
+
+            Task.Delay(5000);
 
             Console.WriteLine($"Running container {containerName}");
-
-            ExecuteCommand(command);
+            ExecuteCommand(startCommand);
 
 
             AwaitSeleniumAvilability(seleniumUrl).GetAwaiter().GetResult();
