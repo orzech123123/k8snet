@@ -113,6 +113,7 @@ namespace react_app.Controllers
 
             await AwaitSeleniumAvilability(seleniumUrl);
 
+            await Task.Delay(5000);
 
             Console.WriteLine("-----------------------------1");
             var chromeOptions = new ChromeOptions();
